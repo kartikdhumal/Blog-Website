@@ -1,15 +1,16 @@
+export const dynamic = 'force-dynamic';
 import getBlogs, { IBlogParams } from "./actions/getBlogs";
 import getCurrentUser from "./actions/getCurrentUser";
-import Link from "next/link";
 import SingleBlog from "@/components/blog/SingleBlog";
 
+
 interface HomeProps {
-  searchParams: IBlogParams;
+  blogParamas: IBlogParams;
 }
 
-export default async function Home({ searchParams }: HomeProps) {
+export default async function Home({ blogParamas }: HomeProps) {
   const currentUser = await getCurrentUser();
-  const blogs = await getBlogs(searchParams);
+  const blogs = await getBlogs(blogParamas);
 
   return (
     <main className="bg-gradient-to-t from-blue-500 via-blue-600 to-blue-700 flex min-h-screen flex-col items-center justify-between gap-4 p-4">
