@@ -1,4 +1,3 @@
-export const dynamic = 'force-dynamic';
 import getBlogs, { IBlogParams } from "./actions/getBlogs";
 import getCurrentUser from "./actions/getCurrentUser";
 import SingleBlog from "@/components/blog/SingleBlog";
