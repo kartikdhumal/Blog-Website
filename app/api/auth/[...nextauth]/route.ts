@@ -2,10 +2,9 @@ import bcrypt from "bcrypt"
 import NextAuth, { AuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import GithubProvider from "next-auth/providers/github"
 import prisma from '../../../lib/prismadb'
 
-export const authOpt: AuthOptions = {
+export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
@@ -19,8 +18,6 @@ export const authOpt: AuthOptions = {
         if (!credentials?.email || !credentials?.password) {
           throw new Error('Invalid Data');
         }
-
-
         const user = await prisma.user.findFirst({
           where: {
             email: credentials.email
@@ -69,12 +66,12 @@ export const authOpt: AuthOptions = {
       return token
     },
   },
-  debug: process.env.NODE_ENV !== 'production', 
+  debug: process.env.NODE_ENV !== 'development',
   session: {
     strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET,
 }
 
-const handler = NextAuth(authOpt);
+const handler = NextAuth(authOptions);
 export {handler as GET, handler as POST}
