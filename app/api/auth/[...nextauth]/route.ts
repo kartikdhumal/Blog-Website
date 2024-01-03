@@ -1,10 +1,11 @@
-import bcrypt from "bcrypt";
-import NextAuth, { AuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import prisma from "../../../lib/prismadb";
+import bcrypt from "bcrypt"
+import NextAuth, { AuthOptions } from "next-auth"
+import CredentialsProvider from "next-auth/providers/credentials"
+import { PrismaAdapter } from "@next-auth/prisma-adapter"
+import GithubProvider from "next-auth/providers/github"
+import prisma from '../../../lib/prismadb'
 
-export const authOptions: AuthOptions = {
+export const authOpt: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
@@ -12,11 +13,13 @@ export const authOptions: AuthOptions = {
       credentials: {
         email: { label: 'email', type: 'text' },
         password: { label: 'password', type: 'password'}
+        
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
           throw new Error('Invalid Data');
         }
+
 
         const user = await prisma.user.findFirst({
           where: {
@@ -52,18 +55,18 @@ export const authOptions: AuthOptions = {
           id: token.id,
           randomKey: token.randomKey
         }
-      };
+      }
     },
     jwt: ({ token, user }) => {
       if (user) {
-        const u = user as unknown as any;
+        const u = user as unknown as any
         return {
           ...token,
           id: u.id,
           randomKey: u.randomKey
-        };
+        }
       }
-      return token;
+      return token
     },
   },
   debug: process.env.NODE_ENV !== 'production', 
@@ -71,7 +74,7 @@ export const authOptions: AuthOptions = {
     strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET,
-};
+}
 
-const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST};
+const handler = NextAuth(authOpt);
+export {handler as GET, handler as POST}
