@@ -1,7 +1,7 @@
 // /api/count/[blogId].ts
 
 import { NextApiRequest, NextApiResponse } from 'next';
-import prisma from '.../../../app/lib/prismadb'
+import prisma from '../../../../lib/prismadb'
 
 export default async function handler(
   req: NextApiRequest,
