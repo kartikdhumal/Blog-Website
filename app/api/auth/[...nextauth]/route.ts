@@ -52,7 +52,6 @@ export const authOptions: AuthOptions = {
   },
   callbacks: {
     session: ({ session, token }) => {
-      // console.log('Session Callback', { session, token })
       return {
         ...session,
         user: {
@@ -63,7 +62,6 @@ export const authOptions: AuthOptions = {
       }
     },
     jwt: ({ token, user }) => {
-      // console.log('JWT Callback', { token, user })
       if (user) {
         const u = user as unknown as any
         return {
@@ -73,14 +71,14 @@ export const authOptions: AuthOptions = {
         }
       }
       return token
-    }
+    },
   },
-  debug: process.env.NODE_ENV === 'development',
+  debug: process.env.NODE_ENV !== 'production', 
   session: {
     strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET,
 }
 
-const handler = NextAuth(authOptions)
+const handler = NextAuth(authOptions);
 export {handler as GET, handler as POST}
