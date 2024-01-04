@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall":"npx prisma generate"
+    "postinstall": "npx prisma generate"
   },
   "dependencies": {
     "@mapbox/node-pre-gyp": "^1.0.11",
@@ -21,6 +21,7 @@
     "next": "14.0.4",
     "next-auth": "^4.24.5",
     "next-cloudinary": "^5.13.0",
+    "raw-loader": "^4.0.2",
     "react": "^18",
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",
