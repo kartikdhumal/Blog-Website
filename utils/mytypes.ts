@@ -1,6 +1,9 @@
-import getBlogs, { IBlogParams } from '../app/actions/getBlogs'
-
 export interface HomeProps {
     blogParams?: IBlogParams;
   }
   
+  export interface IBlogParams {
+    user?: string;
+    userId?: string;
+    categories?: string;
+  }

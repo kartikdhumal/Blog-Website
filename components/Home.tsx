@@ -1,6 +1,6 @@
 import React from 'react'
 import getBlogs from '@/app/actions/getBlogs';
-import { IBlogParams } from '@/app/actions/getBlogs';
+import { IBlogParams } from '@/utils/mytypes';
 import getCurrentUser from '@/app/actions/getCurrentUser';
 import SingleBlog from './blog/SingleBlog';
 

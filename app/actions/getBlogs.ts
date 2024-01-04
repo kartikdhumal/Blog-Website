@@ -1,10 +1,5 @@
 import prisma from '../lib/prismadb';
-
-export interface IBlogParams {
-  user?: string;
-  userId?: string;
-  categories?: string;
-}
+import { IBlogParams } from '@/utils/mytypes';
 
 export default async function getBlogs(params: IBlogParams) {
   try {
