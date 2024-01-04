@@ -1,10 +1,10 @@
 import React from 'react'
 import getBlogs from '@/app/actions/getBlogs';
-import { IBlogParams } from '@/utils/mytypes';
+import { HomeProps } from '@/utils/mytypes';
 import getCurrentUser from '@/app/actions/getCurrentUser';
 import SingleBlog from './blog/SingleBlog';
 
-async function Home(blogParams : IBlogParams) {
+async function Home(blogParams : HomeProps) {
     const currentUser = await getCurrentUser();
     const blogs = await getBlogs(blogParams);
   return (

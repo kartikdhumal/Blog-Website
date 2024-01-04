@@ -1,9 +1,7 @@
 export interface HomeProps {
-    blogParams?: IBlogParams;
-  }
-  
-  export interface IBlogParams {
+  blogParams?: {
     user?: string;
     userId?: string;
     categories?: string;
+  };
   }
