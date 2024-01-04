@@ -1,4 +1,4 @@
-'use client'
+"use client"
 import Image from "next/image";
 import { SafeListing, SafeUser } from "@/types/type"
 import axios from "axios";
