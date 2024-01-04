@@ -2,10 +2,7 @@ import React from 'react';
 import getBlogs, { IBlogParams } from "./actions/getBlogs";
 import SingleBlog from "@/components/blog/SingleBlog";
 import getCurrentUser from "./actions/getCurrentUser";
-
-export interface HomeProps {
-  blogParams?: IBlogParams;
-}
+import { HomeProps } from '@/utils/mytypes';
 
 const Home: React.FC<HomeProps> = async ({ blogParams = {} }: HomeProps) => {
   const currentUser = await getCurrentUser();
