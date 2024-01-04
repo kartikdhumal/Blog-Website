@@ -1,12 +1,13 @@
 import prisma from '../lib/prismadb';
-import { IBlogParams } from '@/utils/mytypes';
+import { HomeProps } from '@/utils/mytypes';
 
-export default async function getBlogs(params: IBlogParams) {
+export default async function getBlogs(params: HomeProps): Promise<any[]> {
   try {
-    const { userId, categories } = params || {}; // Default to an empty object if params is undefined
-
+    const { blogParams } = params || {};
     let query: any = {};
-
+    const userId = blogParams?.userId;
+    const categories = blogParams?.categories;
+    
     if (userId) {
       query.userId = userId;
     }
@@ -32,4 +33,3 @@ export default async function getBlogs(params: IBlogParams) {
     throw new Error(error);
   }
 }
-  

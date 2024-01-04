@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import getBlogs from '@/app/actions/getBlogs';
 import { HomeProps } from '@/utils/mytypes';
 import getCurrentUser from '@/app/actions/getCurrentUser';
