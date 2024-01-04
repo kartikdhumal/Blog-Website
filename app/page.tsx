@@ -1,7 +1,7 @@
 import getBlogs, { IBlogParams } from "./actions/getBlogs";
 import getCurrentUser from "./actions/getCurrentUser";
 import SingleBlog from "@/components/blog/SingleBlog";
-import {HomeProps} from '../utils/mytypes'
+import { HomeProps } from '../utils/mytypes'
 
 export default async function Home({ blogParams }: HomeProps) {
   const currentUser = await getCurrentUser();
