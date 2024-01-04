@@ -1,35 +1,29 @@
-import prisma from '../lib/prismadb'
+import prisma from '../lib/prismadb';
 
 export interface IBlogParams {
-  user?:string
+  user?: string;
   userId?: string;
-  categories?: string
+  categories?: string;
 }
 
-export default async function getBlogs(
-  params: IBlogParams
-) {
+export default async function getBlogs(params: IBlogParams) {
   try {
+    const { userId, categories } = params || {}; // Default to an empty object if params is undefined
 
-    const {
-      userId,
-      categories
-    } = params
+    let query: any = {};
 
-    let query:any = {};
-
-    if(userId) {
-      query.userId = userId
+    if (userId) {
+      query.userId = userId;
     }
 
-    if(categories) {
-      query.categories = categories
+    if (categories) {
+      query.categories = categories;
     }
 
     const blogs = await prisma.blog.findMany({
-      where:query,
+      where: query,
       orderBy: {
-        createdAt: 'desc'
+        createdAt: 'desc',
       },
     });
 
@@ -43,3 +37,4 @@ export default async function getBlogs(
     throw new Error(error);
   }
 }
+  
