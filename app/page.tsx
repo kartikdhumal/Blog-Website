@@ -6,9 +6,9 @@ export interface HomeProps {
   blogParams: IBlogParams;
 }
 
-export default async function Home({ blogParams }: HomeProps) {
-  const currentUser = await getCurrentUser();
-  const blogs = await getBlogs(blogParams);
+export default async function Home({ blogParams}: HomeProps) {
+  const currentUser = await getCurrentUser()
+  const blogs = await getBlogs(blogParams)
 
   return (
     <main className="bg-gradient-to-t from-blue-500 via-blue-600 to-blue-700 flex min-h-screen flex-col items-center justify-between gap-4 p-4">
