@@ -33,7 +33,7 @@ function Navbar({ currentUser }: UserMenuProps) {
 
        {currentUser?.name && (
         isNavbarOpen ? " " :
-  <div className="lg:ml-40 sm:ml-10 lg:text-[14px] vm:text-[13px] rounded-xl px-3 lg:py-1 vm:py-0 bg-sky-200 text-blue-700 font-bold">{`Heyy,`} <span>{currentUser.name}</span></div>
+  <div className="lg:ml-40 sm:ml-10 lg:text-[14px] vm:text-[13px] rounded-xl lg:px-3 vm:px-1 lg:py-1 vm:py-1 bg-sky-200 text-blue-700 font-bold">{`Heyy,`} <span>{currentUser.name}</span></div>
 
 )}
 

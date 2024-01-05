@@ -106,23 +106,23 @@ export default function SingleBlog({ key, data, currentUser }: BlogProps) {
                 <button className="lg:w-auto sm:w-auto text-white bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none  dark:focus:ring-green-800 font-medium rounded-lg text-sm px-4 py-3 sm:p-2 text-center" onClick={() => router.push(`/blogs/${data.id}`)}>Edit</button>
                 <button className="lg:w-auto sm:w-auto text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none dark:focus:ring-red-800 font-medium rounded-lg text-sm px-4 py-3 sm:p-2 text-center" onClick={onDelete}>Delete</button>
               </div>
-              <div className="flex flex-col w-2/4">
+              <div className="flex flex-col w-2/4 vm:mt-5">
                 <div className="flex flex-row justify-end">
-                  <h1 className="text-lg text-blue-800"> - </h1>
-                  <div className="lg:text-lg vm:text-md px-2 font-bold text-blue-800">{userName?.name}</div>
+                  <h1 className="text-blue-800"> - </h1>
+                  <div className="lg:text-lg vm:text-sm px-2 font-bold text-blue-800">{userName?.name}</div>
                 </div>
-                <div className="text-md flex items-center justify-end px-2 text-gray-600">{getRelativeTime(daysDifference)}</div>
+                <div className="text-md lg:text-lg flex vm:text-xs items-center justify-end px-2 text-gray-600">{getRelativeTime(daysDifference)}</div>
               </div>
             </>
           ) : (
             <>
-              <div className="flex items-center w-2/4 gap-4 mt-4"></div>
-              <div className="flex flex-col w-2/4 justify-end">
+              {/* <div className="flex items-center w-2/4 gap-4 mt-4"></div> */}
+              <div className="flex flex-col w-full justify-end items-end">
                 <div className="flex flex-row justify-end">
                   <h1 className="text-lg text-blue-800"> - </h1>
-                  <div className="text-lg px-2 font-bold text-blue-800">{userName?.name ?? 'Anonymous'}</div>
+                  <div className="lg:text-lg vm:text-sm px-2 font-bold text-blue-800">{userName?.name ?? 'Anonymous'}</div>
                 </div>
-                <div className="text-md flex items-center justify-end px-6 text-gray-600">{getRelativeTime(daysDifference)}</div>
+                <div className="text-md lg:text-lg vm:text-xs flex items-center justify-end px-6 text-gray-600">{getRelativeTime(daysDifference)}</div>
               </div>
             </>
           )}
