@@ -102,7 +102,7 @@ export default function SingleBlog({ key, data, currentUser }: BlogProps) {
                     <div className="flex w-100 flex-row justify-end">
           {data.userId === currentUser?.id ? (
             <>
-              <div className="flex items-center w-2/4 gap-4 mt-4 ">
+              <div className="flex items-center w-2/4 gap-4 mt-4">
                 <button className="lg:w-auto sm:w-auto text-white bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none  dark:focus:ring-green-800 font-medium rounded-lg text-sm px-4 py-3 sm:p-2 text-center" onClick={() => router.push(`/blogs/${data.id}`)}>Edit</button>
                 <button className="lg:w-auto sm:w-auto text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none dark:focus:ring-red-800 font-medium rounded-lg text-sm px-4 py-3 sm:p-2 text-center" onClick={onDelete}>Delete</button>
               </div>
