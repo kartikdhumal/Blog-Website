@@ -110,7 +110,6 @@ export default function SingleBlog({ key, data, currentUser }: BlogProps) {
             </>
           ) : (
             <>
-              {/* <div className="flex items-center w-2/4 gap-4 mt-4"></div> */}
               <div className="flex flex-col w-full justify-end items-end">
                 <div className="flex flex-row justify-end">
                   <div className="vm:text-sm px-2 font-bold text-blue-800">{`- ${userName?.name ? userName.name : 'Anonymous'}`}</div>
