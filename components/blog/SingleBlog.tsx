@@ -22,8 +22,7 @@ interface UserName {
 }
 
 export default function SingleBlog({ key, data, currentUser }: BlogProps) {
-  const [userName, setUserName] = useState<UserName | null>(null);
-  const [liked, setLike] = useState(false);
+  const [userName, setUserName] = useState<UserName | null>(null);  
   const router = useRouter();
 
   const onLike = () => {
@@ -49,17 +48,16 @@ export default function SingleBlog({ key, data, currentUser }: BlogProps) {
   }
 
   useEffect(() => {
-    async function fetchUser() {
-        router.refresh()
-      try {
-        const response = await axios.get(`/api/blogs/${data.userId}`);
-        setUserName(response.data);
-      } catch (error) {
-        console.error(error);
-      }
+  async function fetchUser() {
+    try {
+      const response = await axios.get(`/api/blogs/${data.userId}`);
+      setUserName(response.data);
+    } catch (error) {
+      console.error(error);
     }
-    fetchUser();
-  }, [data.id]);
+  }
+  fetchUser();
+}, [data.id]);
   const createdAtDate = data?.createdAt ? new Date(data.createdAt) : null;
   const currentDate = new Date();
   const timeDifference = currentDate.getTime() - (createdAtDate?.getTime() ?? currentDate.getTime());
@@ -79,9 +77,6 @@ export default function SingleBlog({ key, data, currentUser }: BlogProps) {
   const truncatedDescription = data.description.slice(0, descriptionLimit);
   const showReadMore = data.description.length > descriptionLimit;
 
-  useEffect(() => {
-    console.log("Current liked state:", liked);
-  }, [liked]);
 
   return (
     <div className="mt-5 lg:w-[72%] sm:w-[90%] bg-sky-100 p-4 rounded-xl border-2 border-blue-700 shadow-md">
@@ -108,7 +103,7 @@ export default function SingleBlog({ key, data, currentUser }: BlogProps) {
               </div>
               <div className="flex flex-col w-2/4 vm:mt-5">
                 <div className="flex flex-row justify-end">
-                  <div className="vm:text-sm px-2 font-bold text-blue-800">{`-  ` + userName?.name}</div>
+                <div className="vm:text-sm px-2 font-bold text-blue-800">{`- ${userName?.name ? userName.name : 'Anonymous'}`}</div>
                 </div>
                 <div className=" flex vm:text-xs items-center justify-end px-2 text-gray-600">{getRelativeTime(daysDifference)}</div>
               </div>
@@ -118,7 +113,7 @@ export default function SingleBlog({ key, data, currentUser }: BlogProps) {
               {/* <div className="flex items-center w-2/4 gap-4 mt-4"></div> */}
               <div className="flex flex-col w-full justify-end items-end">
                 <div className="flex flex-row justify-end">
-                  <div className="vm:text-sm px-2 font-bold text-blue-800">{ `- `+ userName?.name ?? 'Anonymous'}</div>
+                  <div className="vm:text-sm px-2 font-bold text-blue-800">{`- ${userName?.name ? userName.name : 'Anonymous'}`}</div>
                 </div>
                 <div className="vm:text-xs flex items-center justify-end px-6 text-gray-600">{getRelativeTime(daysDifference)}</div>
               </div>
