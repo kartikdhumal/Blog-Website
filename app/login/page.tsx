@@ -36,13 +36,11 @@ function page() {
             ...state,
             redirect: false,
           });
-      
           if (callback?.ok) {
-            toast.success('Login Successful');
             router.push('/');
+            toast.success('Login Successful');
             router.refresh();
           }
-      
           if (callback?.error) {
             const errorMessage = callback?.error;
             switch (errorMessage) {

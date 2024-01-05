@@ -108,10 +108,9 @@ export default function SingleBlog({ key, data, currentUser }: BlogProps) {
               </div>
               <div className="flex flex-col w-2/4 vm:mt-5">
                 <div className="flex flex-row justify-end">
-                  <h1 className="text-blue-800"> - </h1>
-                  <div className="lg:text-lg vm:text-sm px-2 font-bold text-blue-800">{userName?.name}</div>
+                  <div className="vm:text-sm px-2 font-bold text-blue-800">{`-  ` + userName?.name}</div>
                 </div>
-                <div className="text-md lg:text-lg flex vm:text-xs items-center justify-end px-2 text-gray-600">{getRelativeTime(daysDifference)}</div>
+                <div className=" flex vm:text-xs items-center justify-end px-2 text-gray-600">{getRelativeTime(daysDifference)}</div>
               </div>
             </>
           ) : (
@@ -119,10 +118,9 @@ export default function SingleBlog({ key, data, currentUser }: BlogProps) {
               {/* <div className="flex items-center w-2/4 gap-4 mt-4"></div> */}
               <div className="flex flex-col w-full justify-end items-end">
                 <div className="flex flex-row justify-end">
-                  <h1 className="text-lg text-blue-800"> - </h1>
-                  <div className="lg:text-lg vm:text-sm px-2 font-bold text-blue-800">{userName?.name ?? 'Anonymous'}</div>
+                  <div className="vm:text-sm px-2 font-bold text-blue-800">{ `- `+ userName?.name ?? 'Anonymous'}</div>
                 </div>
-                <div className="text-md lg:text-lg vm:text-xs flex items-center justify-end px-6 text-gray-600">{getRelativeTime(daysDifference)}</div>
+                <div className="vm:text-xs flex items-center justify-end px-6 text-gray-600">{getRelativeTime(daysDifference)}</div>
               </div>
             </>
           )}
