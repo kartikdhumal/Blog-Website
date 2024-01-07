@@ -73,7 +73,7 @@ export default function SingleBlog({ key, data, currentUser }: BlogProps) {
       return 'Future date';
     }
   };
-  const descriptionLimit = 450;
+  const descriptionLimit = 550;
   const truncatedDescription = data.description.slice(0, descriptionLimit);
   const showReadMore = data.description.length > descriptionLimit;
 
