@@ -11,17 +11,18 @@ import { FaCaretDown } from "react-icons/fa";
 import { FaCaretUp } from "react-icons/fa";
 
 interface BlogProps {
-    name?: string
-    description?: string
-    imageSrc?: any
-    blogId?: string
-    createdAt?: string
-    userId?: string
-    currentUserId?: string,
-    userMade?: string,
-    nameUser?: string
+    name?: string;
+    sections?: {
+        imageSrc: string;
+        description: string;
+    }[];
+    blogId?: string;
+    createdAt?: string;
+    userId?: string;
+    currentUserId?: string;
+    userMade?: string;
+    nameUser?: string;
 }
-
 
 interface InitalStateProps {
     name: string,
@@ -56,13 +57,13 @@ const initialState: InitalStateProps = {
     imageSrc: ''
 }
 
-function ShowBlog({ name, description, imageSrc, blogId, createdAt, currentUserId, userMade, nameUser }: BlogProps) {
+function ShowBlog({ name, sections , blogId, createdAt, currentUserId, userMade, nameUser }: BlogProps) {
     const [userName, setUserName] = useState({});
     const [isLoading, setIsLoading] = useState(false)
     const [comments, setComments] = useState<Comment[]>([]);
     const [comment, setComment] = useState('');
     const [totalComment, setTotal] = useState(0);
-    const [sections, setSections] = useState<Section[]>([]);
+    const [sectionslist, setSections] = useState<Section[]>([]);
     const [commentsExpanded, setCommentsExpanded] = useState(false);
 
     const router = useRouter()
@@ -179,7 +180,7 @@ function ShowBlog({ name, description, imageSrc, blogId, createdAt, currentUserI
 
 
                 {
-                    sections.map((sections, index) => (
+                    sectionslist.map((sections, index) => (
                         <>
                             <div className="image relative mb-6">
                                 <Image
