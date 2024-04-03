@@ -14,7 +14,8 @@ export default async function getBlogsById(
         id: blogId,
       },
       include: {
-        user: true
+        user: true,
+        sections: true
       }
     });
     if (!blog) {
@@ -24,6 +25,7 @@ export default async function getBlogsById(
     return {
       ...blog,
       createdAt: blog.createdAt.toString(),
+      
       user: {
         ...blog.user,
         createdAt: blog.user.createdAt.toString(),
@@ -31,6 +33,11 @@ export default async function getBlogsById(
         emailVerified: 
           blog.user.emailVerified?.toString() || null,
       },
+      sections: blog.sections.map(section => ({
+        ...section,
+         imageSrc: section.imageSrc.toString(),
+        description: section.description.toString(),
+      })),
     };
   } catch (error: any) {
     throw new Error("getBlogsById error" + error);

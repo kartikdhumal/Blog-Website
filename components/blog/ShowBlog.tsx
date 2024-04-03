@@ -39,6 +39,13 @@ interface Comment {
     comment: string;
 }
 
+interface Section {
+    id: string;
+    imageSrc: string;
+    description: string;
+    blogId: string;
+}
+
 interface deleteId {
     id?: string
 }
@@ -55,6 +62,7 @@ function ShowBlog({ name, description, imageSrc, blogId, createdAt, currentUserI
     const [comments, setComments] = useState<Comment[]>([]);
     const [comment, setComment] = useState('');
     const [totalComment, setTotal] = useState(0);
+    const [sections, setSections] = useState<Section[]>([]);
     const [commentsExpanded, setCommentsExpanded] = useState(false);
 
     const router = useRouter()
@@ -72,6 +80,20 @@ function ShowBlog({ name, description, imageSrc, blogId, createdAt, currentUserI
             return 'Future date';
         }
     };
+
+    useEffect(() => {
+        async function fetchSections() {
+            try {
+                const response = await axios.get(`/api/sections`);
+                const filteredSections = response.data.filter((section: Section) => section.blogId === blogId);
+                setSections(filteredSections);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        fetchSections();
+    }, [blogId]);
+
 
     const getRelativeTimeForComments = (commentCreatedAt: any) => {
         const commentDate = new Date(commentCreatedAt);
@@ -154,18 +176,26 @@ function ShowBlog({ name, description, imageSrc, blogId, createdAt, currentUserI
                 <div className="title text-3xl font-extrabold p-7 text-white capitalize">
                     {name}
                 </div>
-                <div className="image relative mb-6">
-                    <Image
-                        height={350}
-                        width={700}
-                        className="rounded-lg shadow-md"
-                        src={imageSrc ?? ''}
-                        alt="Blog Image"
-                    />
-                </div>
-             <div className="description lg:w-[50%] text-white text-xl p-5">
-                {description}
-            </div>
+
+
+                {
+                    sections.map((sections, index) => (
+                        <>
+                            <div className="image relative mb-6">
+                                <Image
+                                    height={350}
+                                    width={700}
+                                    className="rounded-lg shadow-md"
+                                    src={sections.imageSrc ?? ''}
+                                    alt="Blog Image"
+                                />
+                            </div>
+                            <div className="description lg:w-[50%] text-white text-xl p-5">
+                                {sections.description}
+                            </div>
+                        </>
+                    ))
+                }
 
                 <div className="description lg:w-[40%] sm:w-[100%] p-5 flex flex-col">
                     <div className="date text-gray-200 text-md">

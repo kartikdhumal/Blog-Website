@@ -19,20 +19,28 @@ model User {
   hashedPassword String?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
-  comments Comment[]
-  courses Blog[]
-  listings Listing[]
+  comments       Comment[]
+  courses        Blog[]
+  listings       Listing[]
 }
 
 model Blog {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  createdAt   DateTime @default(now())
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  sections  Section[]
+  comments  Comment[]
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String    @db.ObjectId
+}
+
+model Section {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
   imageSrc    String
   description String
-  comments    Comment[]
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      String @db.ObjectId
+  blog        Blog   @relation(fields: [blogId], references: [id])
+  blogId      String @db.ObjectId
 }
 
 model Comment {
@@ -46,12 +54,12 @@ model Comment {
 }
 
 model Listing {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
-  createdAt DateTime @default(now())
-  imageSrc String
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  createdAt   DateTime @default(now())
+  imageSrc    String
   description String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @db.ObjectId
-  likedIds String[]  @db.ObjectId
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String   @db.ObjectId
+  likedIds    String[] @db.ObjectId
 }

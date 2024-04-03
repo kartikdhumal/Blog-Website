@@ -7,7 +7,7 @@ export default async function getBlogs(params: HomeProps): Promise<any[]> {
     let query: any = {};
     const userId = blogParams?.userId;
     const categories = blogParams?.categories;
-    
+
     if (userId) {
       query.userId = userId;
     }
@@ -26,10 +26,12 @@ export default async function getBlogs(params: HomeProps): Promise<any[]> {
     const safeblogs = blogs.map((blog) => ({
       ...blog,
       createdAt: blog.createdAt.toISOString(),
+      updatedAt: blog.updatedAt ? blog.updatedAt.toISOString() : null,
     }));
 
     return safeblogs;
   } catch (error: any) {
-    throw new Error(error);
+    console.error('Error fetching blogs:', error);
+    return [];
   }
 }

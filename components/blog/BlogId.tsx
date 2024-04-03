@@ -1,35 +1,41 @@
-'use client';
-
+"use client"
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { ChangeEvent, FormEvent, useState, useEffect } from 'react';
-import Image from 'next/image';
 import ImageUpload from '../input/ImageUpload';
 import Input from '../input/Input';
 import { toast } from 'react-hot-toast';
 
 interface BlogProps {
-  name?: string;
-  description?: string;
-  imageSrc?: any;
-  blogId?: string;
+  name: string;
+  sections?: {
+    imageSrc: string;
+    description: string;
+    id: string;
+    blogId: string;
+  }[];
+  blogId: string;
+}
+
+interface Section {
+  imageSrc: string;
+  description: string;
+  id: string;
+  blogId: string;
 }
 
 interface InitialStateProps {
   name: string;
-  description: string;
-  imageSrc: string;
+  sections: Section[];
 }
 
 const initialState: InitialStateProps = {
   name: '',
-  description: '',
-  imageSrc: '',
+  sections: [{ imageSrc: '', description: '', id: '', blogId: '' }],
 };
 
-export default function BlogId({ name, description, imageSrc, blogId }: BlogProps) {
+export default function BlogId({ name, sections, blogId }: BlogProps) {
   const router = useRouter();
-  const [onActive, setOnActive] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [state, setState] = useState(initialState);
@@ -37,23 +43,41 @@ export default function BlogId({ name, description, imageSrc, blogId }: BlogProp
   useEffect(() => {
     setState({
       name: name || '',
-      description: description || '',
-      imageSrc: imageSrc || '',
+      sections: sections || [],
     });
-  }, [name, description, imageSrc]);
+  }, [name, sections]);
 
-  function handleChange(event: ChangeEvent<HTMLInputElement>) {
-    setState({ ...state, [event.target.name]: event.target.value });
-  }
+  const handleDescriptionChange = (event: ChangeEvent<HTMLInputElement>, sectionIndex: number) => {
+    const { name, value } = event.target;
+    setState((prevState) => ({
+      ...prevState,
+      sections: prevState.sections.map((section, index) =>
+        index === sectionIndex ? { ...section, [name]: value } : section
+      ),
+    }));
+  };
+
+  const handleImageUpload = (value: string, sectionIndex: number) => {
+    setState((prevState) => ({
+      ...prevState,
+      sections: prevState.sections.map((section, index) =>
+        index === sectionIndex ? { ...section, imageSrc: value } : section
+      ),
+    }) as InitialStateProps);
+  };
 
   const onSubmit = (event: FormEvent) => {
     setIsLoading(true);
     event.preventDefault();
-    if (state.name == '' || state.imageSrc == '' || state.description == '') {
-      toast.error('Fill the data');
+    const updatedSections = state.sections.filter((section) => section.imageSrc !== '' && section.description !== '');
+    console.log('Updated sections:', updatedSections);
+    if (state.name === '' || updatedSections.length === 0) {
+      toast.error('Fill all data');
       setIsLoading(false);
-    }{
-      axios.put(`/api/blogs/${blogId}`, state)
+      return;
+    }
+    axios
+      .put(`/api/blogs/${blogId}`, { name: state.name, sections: updatedSections })
       .then(() => {
         toast.success('Updated Successfully');
         router.refresh();
@@ -61,13 +85,13 @@ export default function BlogId({ name, description, imageSrc, blogId }: BlogProp
       })
       .catch((err) => {
         console.log(err);
+        toast.error('Error updating blog');
       })
       .finally(() => {
         setIsLoading(false);
       });
-    }
   };
-// for delete blog
+
   const onDelete = (event: FormEvent) => {
     setIsDeleting(true);
     event.preventDefault();
@@ -79,66 +103,104 @@ export default function BlogId({ name, description, imageSrc, blogId }: BlogProp
         router.refresh();
       })
       .catch((err) => {
-        throw new Error(err);
+        console.error(err);
+        toast.error('Error deleting blog');
       })
       .finally(() => {
         setIsDeleting(false);
       });
   };
 
-  const setCustomValue = (id: any, value: any) => {
-    setState((prevValues) => ({
-      ...prevValues,
-      [id]: value,
+  const addSection = () => {
+    const newSection: Section = {
+      imageSrc: '',
+      description: '',
+      id: '',
+      blogId: blogId,
+    };
+
+    setState(prevState => ({
+      ...prevState,
+      sections: [...prevState.sections, newSection]
     }));
   };
 
-  return (
-    <div className="lg:w-screen overflow-hidden justify-center items-center lg:h-screen sm:h-auto sm:w-full mx-auto py-16 bg-gradient-to-t from-blue-500 via-blue-600 to-blue-700">
-  <div className="mybox flex flex-col justify-center items-center p-5">
+  useEffect(() => {
+    console.log("Updated state:", state);
+  }, [state]);
 
-    <form onSubmit={onSubmit} className="w-full max-w-[400px] mx-auto">
-      <div className="mb-4">
-        <ImageUpload value={state.imageSrc} onChange={(value) => setCustomValue('imageSrc', value)} />
-      </div>
-      <div className="flex flex-col justify-center py-8 gap-2">
+
+  const removeSection = (indexToRemove: number) => {
+    const updatedSections = state.sections.filter((_, index) => index !== indexToRemove);
+    setState(prevState => ({
+      ...prevState,
+      sections: updatedSections
+    }))
+  };
+
+
+  return (
+    <form onSubmit={onSubmit} className="bg-gradient-to-t border-1 border-blue-700 from-blue-500 via-blue-600 to-blue-700 mx-auto py-0 px-4 sm:px-8 lg:px-16 flex  items-center lg:flex-col sm:flex flex-col border-2 ">
+      <div className='pt-12 w-full'>
         <Input
           type="text"
           name="name"
           id="name"
-          placeholder="Name"
+          placeholder="Title"
           value={state.name}
-          onChange={handleChange}
-          style="w-full px-4 py-3 font-bold rounded-lg border focus:border-blue-500 focus:bg-white focus:outline-none"
+          onChange={(e) => setState({ ...state, name: e.target.value })}
+          style="w-96 px-4 py-3 mt-5 rounded-lg  mt-2 border focus:border-blue-500 focus:outline-none"
         />
-        <Input
-          type="text"
-          name="description"
-          id="description"
-          placeholder="Description"
-          value={state.description}
-          onChange={handleChange}
-          style="w-full px-4 py-3 rounded-lg border focus:border-blue-500 focus:bg-white focus:outline-none"
-        />
-        <div className='flex lg:flex-row gap-3'>
-          <button
-            type="submit"
-            className="w-full text-white font-bold bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 rounded-lg text-md px-4 py-2 mt-2 border border-solid border-green-700 shadow-md"
-            disabled={isLoading}
-          >
-            {isLoading ? 'Updating...' : 'Update'}
-          </button>
-          <button
-            disabled={isDeleting}
-            className="w-full mt-2 text-white font-bold bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 rounded-lg text-md px-4 py-2 border border-solid border-red-700 shadow-md"
-            onClick={onDelete}
-          >
-            {isDeleting ? 'Deleting...' : 'Delete'}
-          </button>
-        </div>
+        {state.sections.map((section, index) => (
+          <div key={index} className="flex items-start justify-start flex-col gap-4">
+            <ImageUpload
+              value={section.imageSrc}
+              onChange={(value) => handleImageUpload(value, index)}
+            />
+            <textarea
+              name="description"
+              id={`description-${index}`}
+              placeholder="Content"
+              value={section.description}
+              onChange={(e) => handleDescriptionChange(e as any, index)}
+              className="w-full h-48 px-4 py-3 rounded-lg mt-0 border resize-none focus:border-blue-500 focus:bg-white focus:outline-none"
+            ></textarea>
+
+            {state.sections.length > 0 && (
+              <div className="flex flex-row items-center w-full my-0 justify-evenly">
+                <div
+                  onClick={addSection}
+                  className="text-white cursor-pointer w-full bg-gradient-to-r from-sky-300 via-sky-500 to-sky-400 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-100 dark:focus:ring-blue-200 rounded-lg text-sm px-4 py-2 font-bold text-center"
+                >
+                  Add Section
+                </div>
+                {state.sections.length > 1 && (
+                  <div
+                    onClick={() => removeSection(index)}
+                    className="text-white cursor-pointer w-full  mx-2 bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 rounded-lg text-sm px-4 py-2 font-bold text-center"
+                  >
+                    Remove Section
+                  </div>
+                )}
+              </div>
+            )}
+
+          </div>
+        ))}
+      </div>
+      <button
+        className="w-full mt-4 font-bold text-white bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 rounded-lg text-sm px-4 py-2 text-center me-2 mb-2 shadow-lg"
+        type="submit"
+        disabled={isLoading}
+      >
+        {isLoading ? 'Updating...' : 'Update'}
+      </button>
+      <div
+        onClick={(e) => onDelete(e as any)}
+        className="text-white cursor-pointer w-full  mx-2 bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 rounded-lg text-sm px-4 py-2 font-bold text-center"
+      >
+        {isDeleting ? 'Deleting...' : 'Delete'}
       </div>
     </form>
-  </div>
-</div>
   );
 }

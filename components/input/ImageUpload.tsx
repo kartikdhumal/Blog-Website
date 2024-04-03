@@ -35,10 +35,10 @@ const ImageUpload:React.FC<ImageUploadProps> = ({
 
         {({open}) => {
             return (
-                <div onClick={() => open?.()} className='lg:auto sm:w-[400px] relative cursor-pointer border-solid border-2 selection: border-black hover:opacity-70 flex flex-col justify-center p-7 items-center h-[150px] '>
+                <div onClick={() => open?.()} className='lg:auto bg-gray-700 rounded-2xl text-white sm:w-[400px] my-5 relative cursor-pointer border-solid border-2 selection: border-black hover:opacity-70 flex flex-col justify-center p-7 items-center h-52 '>
                     <TbPhotoPlus size='30px'/>        
-                    <div className='text-md font-bold '>
-                        Click to upload
+                    <div className='text-md font-bold'>
+                        Upload Blog Image
                     </div>
 
                     {value && (
