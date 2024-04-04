@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { MdOutlineComment } from "react-icons/md";
 import { FaRegHeart } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
+import { Skeleton } from '@mui/material';
 import Link from "next/link";
 
 interface BlogProps {
@@ -45,6 +46,9 @@ export default function SingleBlog({ key, data, currentUser }: BlogProps) {
       } catch (error) {
         console.error(error);
       }
+      finally {
+        setLoading(false);
+      }
     }
     fetchSections();
   }, [data.id]);
@@ -62,12 +66,11 @@ export default function SingleBlog({ key, data, currentUser }: BlogProps) {
         setIsDeleting(false);
       });
   }
-
   useEffect(() => {
     async function fetchUser() {
       try {
-        const response = await axios.get(`/api/blogs/${data.userId}`);
-        setUserName(response.data);
+        const response = await axios.get(`/api/blogs/${data.id}`);
+        setUserName(response.data.user.name);
       } catch (error) {
         console.error(error);
       } finally {
@@ -77,89 +80,122 @@ export default function SingleBlog({ key, data, currentUser }: BlogProps) {
     fetchUser();
   }, [data.id]);
 
+
   useEffect(() => {
-    if (data.description.length > 100) {
+    if (sections.length > 0 && sections[0].description) {
       setShowReadMore(true);
     }
-  }, [data.description]);
+  }, [sections]);
+
 
   const createdAtDate = data?.createdAt ? new Date(data.createdAt) : null;
   const currentDate = new Date();
   const timeDifference = currentDate.getTime() - (createdAtDate?.getTime() ?? currentDate.getTime());
   const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-  const getRelativeTime = (days: number): string => {
-    if (days === 0) {
-      return 'Today';
-    } else if (days === 1) {
-      return 'Yesterday';
-    } else if (days > 1) {
-      return `${days} days ago`;
-    } else {
-      return 'Future date';
+  const getRelativeTime = (date: Date | string): string => {
+    if (typeof date === 'string') {
+      date = new Date(date);
     }
+    const options: Intl.DateTimeFormatOptions = { month: 'short', day: '2-digit', year: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
   };
-  // const showReadMore = data.description.length > descriptionLimit;
+
+
+
 
 
   return (
-    <div className="mt-5 lg:w-[72%] sm:w-[90%] bg-sky-100 p-4 rounded-xl border-2 border-blue-700 shadow-md">
-      <div className="">
-        <div className="lg:flex gap-2 lg:flex-row justify-between cursor-pointer  sm:flex flex-col">
-          {sections.length > 0 && (
-            <Image width={400} className="lg:w-[500px]  sm:w-auto rounded-md object-contain" height={500} src={sections[0].imageSrc} alt="Blog Image" />
-          )}
-          <div className="lg:w-auto flex flex-col pl-2 gap-4 leading-[1.5] sm:w-auto">
-            <b><h1 onClick={() => router.push(`/showblog/${data.id}`)} className="text-2xl lg:pt-5 font-semibold text-blue-800">{data.name}</h1></b>
-            <p className="text-gray-800 " onClick={() => router.push(`/showblog/${data.id}`)}>
-              {sections.length > 0 && (
-                <>
-                  {showReadMore ? (
-                    <>
-                      {sections[0].description.substr(0, 100)}...
-                      <span className="text-blue-600 cursor-pointer">
-                        Read more
-                      </span>
-                    </>
-                  ) : (
-                    data.description
-                  )}
-                </>
-              )}
-            </p>
-            <div className="flex w-100 flex-row justify-end">
-              {!loading && (
-                <>
-                  {data.userId === currentUser?.id ? (
-                    <>
-                      <div className="flex items-center w-2/4 gap-4 mt-4">
-                        <button className="lg:w-auto sm:w-auto text-white bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none  dark:focus:ring-green-800 font-medium rounded-lg text-sm px-4 py-3 sm:p-2 text-center" onClick={() => router.push(`/blogs/${data.id}`)}>Edit</button>
-                        <button className="lg:w-auto sm:w-auto text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none dark:focus:ring-red-800 font-medium rounded-lg text-sm px-4 py-3 sm:p-2 text-center" onClick={onDelete}>
-                          {isDeleting ? "Deleting..." : "Delete"}
-                        </button>
-                      </div>
-                      <div className="flex flex-col w-2/4 vm:mt-5">
-                        <div className="flex flex-row justify-end">
-                          <div className="vm:text-sm px-2 font-bold text-blue-800">{`- ${userName?.name ? userName.name : 'Anonymous'}`}</div>
-                        </div>
-                        <div className=" flex vm:text-xs items-center justify-end px-2 text-gray-600">{getRelativeTime(daysDifference)}</div>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="flex flex-col w-full justify-end items-end">
-                        <div className="flex flex-row justify-end">
-                          <div className="vm:text-sm px-2 font-bold text-blue-800">{`${userName?.name ? " -" + userName.name : ''}`}</div>
-                        </div>
-                        <div className="vm:text-xs flex items-center justify-end px-6 text-gray-600">{getRelativeTime(daysDifference)}</div>
-                      </div>
-                    </>
-                  )}
-                </>
-              )}
+    <>
+      {loading ? (
+        <>
+          <div className="mt-5 lg:w-[30%] lg:ml-[2%] sm:w-[90%] lg:h-[400px] sm:h-auto rounded-xl shadow-md">
+            <div className="">
+              <div className="lg:flex gap-2 lg:flex-col justify-between cursor-pointer sm:flex flex-col">
+                <Skeleton variant="rectangular" width="100%" height={200} />
+                <div className="lg:w-auto flex flex-col pl-6 leading-[1.5] sm:w-auto">
+                  <Skeleton variant="text" width="60%" />
+                  <div className="flex w-100 flex-row justify-end lg:pr-3 sm:py-3 pr-3">
+                    <Skeleton variant="text" width={100} />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </>
+      ) : (
+        sections.length > 0 && (
+          <div className="mt-5 lg:w-[30%] lg:ml-[2%] bg-gray-300 border border-black sm:w-[90%] lg:h-[400px] sm:h-auto rounded-xl shadow-md">
+            <div className="">
+              <div className="lg:flex gap-2 lg:flex-col justify-between cursor-pointer sm:flex flex-col">
+                {sections.length > 0 && (
+                  <Link href={`/showblog/${data.id}`}>
+                    <img
+                      className="lg:w-[90%] sm:w-[90%] m-5 rounded-xl border border-black object-contain transform transition-transform "
+                      src={sections[0].imageSrc}
+                      alt="Blog Image"
+                    ></img>
+                  </Link>
+                )}
+                <div className="lg:w-auto flex flex-col pl-6 leading-[1.5] sm:w-auto">
+                  {sections.length > 0 && (
+                    <b>
+                      <h1
+                        onClick={() => router.push(`/showblog/${data.id}`)}
+                        className="text-2xl font-semibold text-blue-800"
+                      >
+                        {data.name}
+                      </h1>
+                    </b>
+                  )}
+                  <div className="flex w-100 flex-row justify-end lg:pr-3 sm:py-3 pr-3">
+                    {!loading && (
+                      <>
+                        {data.userId === currentUser?.id ? (
+                          <>
+                            <div className="flex items-center w-2/4 gap-4 mt-4">
+                              <button
+                                className="lg:w-auto sm:w-auto text-white bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none  dark:focus:ring-green-800 font-medium rounded-lg text-sm px-4 py-3 sm:p-2 text-center"
+                                onClick={() => router.push(`/blogs/${data.id}`)}
+                              >
+                                Edit
+                              </button>
+                              <button
+                                className="lg:w-auto sm:w-auto text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none dark:focus:ring-red-800 font-medium rounded-lg text-sm px-4 py-3 sm:p-2 text-center"
+                                onClick={onDelete}
+                              >
+                                {isDeleting ? 'Deleting...' : 'Delete'}
+                              </button>
+                            </div>
+                            <div className="flex flex-col w-2/4 vm:mt-5">
+                              <div className="flex flex-row justify-end">
+                                <div className="vm:text-sm px-2 font-bold text-blue-800">{`${userName ? '- ' + userName : ''}`}</div>
+                              </div>
+                              <div className=" flex vm:text-xs items-center justify-end px-2 text-gray-600">
+                                {getRelativeTime(data.createdAt)}
+                              </div>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div className="flex flex-col w-full justify-start items-start">
+                              <div className="flex flex-row justify-end">
+                                <div className="vm:text-sm px-2 font-bold text-blue-800">{`${userName ? '- ' + userName : ''}`}</div>
+                              </div>
+                              <div className="vm:text-xs flex items-center justify-end px-6 text-gray-600">
+                                {getRelativeTime(data.createdAt)}
+                              </div>
+                            </div>
+                          </>
+                        )}
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      )}
+    </>
   )
 }

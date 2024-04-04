@@ -1,6 +1,7 @@
 "use client"
 import Input from '@/components/input/Input'
 import axios from 'axios'
+import { signOut } from 'next-auth/react'
 import { stat } from 'fs'
 import { useRouter } from 'next/navigation'
 import React, { ChangeEvent, FormEvent, useState } from 'react'
@@ -35,22 +36,23 @@ export default function EditProfilePage({ params }: { params: IParams }) {
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
     setIsLoading(true);
-  
+
     try {
-      if(state.email=='' || state.hashedPassword==''|| state.name==''){
+      if (state.email == '' || state.hashedPassword == '' || state.name == '') {
         toast.error('Fill the data');
-      }else{
-          await axios.put(`/api/editprofile/${userId}`, state);
-          toast.success('Profile Updated Successfully');
-          router.push('/login');
-          router.refresh();
+      } else {
+        await axios.put(`/api/editprofile/${userId}`, state);
+        await signOut()
+        toast.success('Profile Updated Successfully');
+        router.push('/login');
+        router.refresh();
       }
     } catch (error: any) {
       console.error(error);
-  
+
       if (error.response) {
         const errorMessage = error.response.data.error;
-  
+
         switch (errorMessage) {
           case 'Invalid email format':
             toast.error('Please provide a valid email address.');
@@ -75,7 +77,7 @@ export default function EditProfilePage({ params }: { params: IParams }) {
     } finally {
       setIsLoading(false);
     }
-  };  
+  };
 
   return (
     <div className="flex bg-gradient-to-t from-blue-500 via-blue-600 to-blue-700 flex-col md:flex-row h-screen items-center ">

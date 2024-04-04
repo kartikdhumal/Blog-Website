@@ -98,3 +98,29 @@ export async function PUT(
 
   return NextResponse.json(updatedBlog);
 }
+
+
+export async function GET(request: Request, { params }: { params: { blogId: string } }) {
+  const { blogId } = params;
+
+  if (!blogId || typeof blogId !== 'string') {
+    throw new Error('Invalid blogId');
+  }
+
+  const blog = await prisma.blog.findUnique({
+    where: {
+      id: blogId
+    },
+    include: {
+      sections: true,
+      comments: true,
+      user: true
+    }
+  });
+
+  if (!blog) {
+    throw new Error('Blog Not Found');
+  }
+
+  return NextResponse.json(blog);
+}

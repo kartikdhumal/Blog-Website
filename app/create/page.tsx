@@ -120,7 +120,7 @@ export default function page() {
             <div className="flex flex-row items-center w-full my-0 justify-evenly">
               <div
                 onClick={addSection}
-                className="ext-white cursor-pointer w-full bg-gradient-to-r from-sky-300 via-sky-500 to-sky-400 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-100 dark:focus:ring-blue-200 rounded-lg text-sm px-4 py-2 font-bold text-center"
+                className="text-white cursor-pointer w-full bg-gradient-to-r from-sky-300 via-sky-500 to-sky-400 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-100 dark:focus:ring-blue-200 rounded-lg text-sm px-4 py-2 font-bold text-center"
               >
                 Add Section
               </div>
