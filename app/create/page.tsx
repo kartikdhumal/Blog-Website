@@ -91,7 +91,7 @@ export default function page() {
   };
 
   return (
-    <form onSubmit={onSubmit} className="bg-gradient-to-t border-1 border-blue-700 from-blue-500 via-blue-600 to-blue-700 mx-auto py-0 px-4 sm:px-8 lg:px-16 flex  items-center lg:flex-col sm:flex flex-col border-2 ">
+    <form onSubmit={onSubmit} className="bg-[#001f50] mx-auto w-full py-0 px-4 border-2 border-[#001f50] sm:px-8 lg:px-16 flex  items-center lg:flex-col sm:flex flex-col">
       <div className='pt-12 w-full'>
         <Input
           type="text"
@@ -120,7 +120,7 @@ export default function page() {
             <div className="flex flex-row items-center w-full my-0 justify-evenly">
               <div
                 onClick={addSection}
-                className="text-white cursor-pointer w-full bg-gradient-to-r from-sky-300 via-sky-500 to-sky-400 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-100 dark:focus:ring-blue-200 rounded-lg text-sm px-4 py-2 font-bold text-center"
+                className="text-white cursor-pointer w-full bg-gradient-to-r from-sky-400 via-sky-600 to-sky-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-300 rounded-lg text-sm px-4 py-2 font-bold text-center"
               >
                 Add Section
               </div>

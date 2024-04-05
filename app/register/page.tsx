@@ -26,50 +26,37 @@ function page() {
   function handleChange(e: any) {
     setState({ ...state, [e.target.name]: e.target.value });
   }
+  
 
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
     setIsLoading(true);
-  
+    if (!state.name || !state.email || !state.password) {
+      setIsLoading(false);
+      return toast.error('Please fill in all fields.');
+    }
     try {
       await axios.post('/api/register', state);
-        toast.success('Your account has been created')
-        setState({ name : ' ', email : '' , password : ''});
-        router.push('/login');
-    } catch (error:any) {  
+      toast.success('Your account has been created')
+      setState({ name: ' ', email: '', password: '' });
+      router.push('/login');
+    } catch (error: any) {
       console.error(error);
       if (error.response) {
         const errorMessage = error.response.data.error;
-        switch (errorMessage) {
-          case 'Invalid email format':
-            toast.error('Please provide a valid email address.');
-            setState(prevState => ({ ...prevState, email: '' }));
-            break;
-          case 'Name must be at least two characters long':
-            toast.error('Name must be at least two characters long');
-            setState(prevState => ({ ...prevState, name: '' }));
-            break;
-          case 'Invalid name format':
-            toast.error('Invalid Name Format');
-            setState(prevState => ({ ...prevState, name: '' }));
-            break;
-          default:
-            toast.error('Registration failed. Please try again.');
-            setState({ email : '' , name : '' , password : ''});
-            break;
-        }
+        toast.error(errorMessage);
       } else {
-        toast.error('An unexpected error occurred. Please try again.');
+        toast.error('Something is wrong');
       }
     } finally {
       setIsLoading(false);
     }
   };
-  
-  
+
+
 
   return (
-    <div className="flex bg-gradient-to-t from-blue-500 via-blue-600 to-blue-700 h-screen items-center">
+    <div className="flex bg-[#001f50] lg:pt-20 sm:pt-20 flex-col md:flex-row h-screen fixed w-full justify-start items-start ">
       <div className="rounded-lg w-full md:max-w-md lg:max-w-full md:mx-auto md:w-1/2 xl:w-1/3 h-auto px-6 lg:px-16 xl:px-12
          flex items-center justify-center">
 

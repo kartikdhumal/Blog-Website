@@ -72,7 +72,7 @@ function page() {
       
 
     return (
-        <div className="flex bg-gradient-to-t from-blue-500 via-blue-600 to-blue-700 flex-col md:flex-row h-screen items-center ">
+        <div className="flex bg-[#001f50] lg:pt-28 sm:pt-0 flex-col md:flex-row h-screen fixed w-full justify-start items-start ">
             <div className="rounded-lg w-full md:max-w-md lg:max-w-full md:mx-auto md:w-1/2 xl:w-1/3 h-auto px-6 lg:px-16 xl:px-12
             flex items-center justify-center">
 

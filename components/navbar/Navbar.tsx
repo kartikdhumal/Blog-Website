@@ -25,7 +25,7 @@ function Navbar({ currentUser }: UserMenuProps) {
   };
   return (
     <header>
-      <nav className='bg-blue-700 shadow-xl lg:shadow-md sm:shadow-sm flex justify-between px-4 py-4'>
+      <nav className='bg-[#001f50] shadow-xl lg:shadow-md sm:shadow-sm flex justify-between px-4 lg:py-5 sm:py-5'>
         <div className='lg:px-10 sm:px-2 flex items-center'>
           <h1 className={`${!isNavbarOpen ? 'sm:block' : 'sm:hidden'} lg:text-3xl w-50 sm:block font-bold sm:text-2xl sm:h-10 text-white`} style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }}>
             <Link href={'/'}>DKTales</Link>
@@ -33,7 +33,7 @@ function Navbar({ currentUser }: UserMenuProps) {
 
           {currentUser?.name && (
             isNavbarOpen ? " " :
-              <div className="lg:ml-40 sm:ml-10 lg:text-[14px] vm:text-[13px] rounded-xl lg:px-3 vm:px-1 lg:py-1 vm:py-1 bg-sky-200 text-blue-700 font-bold">{`Heyy,`} <span>{currentUser.name}</span></div>
+              <div className="lg:ml-40 sm:ml-10 lg:text-[14px] vm:text-[13px] rounded-xl lg:px-3 vm:px-1 lg:py-1 vm:py-1 bg-sky-200 text-[#001f50] font-bold">{`Heyy,`} <span>{currentUser.name}</span></div>
 
           )}
 
@@ -44,11 +44,11 @@ function Navbar({ currentUser }: UserMenuProps) {
               <div className='w-full flex justify-end items-center'>
                 <IoIosCloseCircle onClick={handleNavigation} className={`${isNavbarOpen ? 'sm:block' : 'sm:hidden'} mt-2 text-white`} size={30} />
               </div>
-              <div className={`lg:flex sm:flex ${isNavbarOpen ? 'flex-col' : 'flex-row'} items-center gap-7`}>
+              <div className={`lg:flex  text-md lg:w-full sm:flex ${isNavbarOpen ? 'flex-col' : 'flex-row'} items-center gap-7`}>
                 <Link href='/' onClick={handleLinkClick} className="text-white">Home</Link>
-                <Link href='/create' onClick={handleLinkClick} className="text-white"> Start </Link>
+                <Link href='/create' onClick={handleLinkClick} className="text-white"> Create </Link>
                 <Link href={`/profile/${currentUser.id}`} onClick={handleLinkClick} className="text-white">Profile</Link>
-                <button className="lg:w-auto sm:w-full flex items-center text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 rounded-lg text-sm px-4 py-2 font-bold text-center ml-2" onClick={() => signOut()}>LogOut</button>
+                <button className="lg:w-auto sm:w-full flex items-center text-white bg-gradient-to-r from-red-600 via-red-700 to-red-800 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-400 dark:focus:ring-red-900 rounded-lg text-sm px-4 py-2 font-bold text-center" onClick={() => signOut()}>Log out</button>
               </div>
             </>
           ) : (

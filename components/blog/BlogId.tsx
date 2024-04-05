@@ -80,8 +80,8 @@ export default function BlogId({ name, sections, blogId }: BlogProps) {
       .put(`/api/blogs/${blogId}`, { name: state.name, sections: updatedSections })
       .then(() => {
         toast.success('Updated Successfully');
-        router.refresh();
         router.push('/');
+        router.refresh();
       })
       .catch((err) => {
         console.log(err);
@@ -125,11 +125,6 @@ export default function BlogId({ name, sections, blogId }: BlogProps) {
     }));
   };
 
-  useEffect(() => {
-    console.log("Updated state:", state);
-  }, [state]);
-
-
   const removeSection = (indexToRemove: number) => {
     const updatedSections = state.sections.filter((_, index) => index !== indexToRemove);
     setState(prevState => ({
@@ -140,7 +135,7 @@ export default function BlogId({ name, sections, blogId }: BlogProps) {
 
 
   return (
-    <form onSubmit={onSubmit} className="bg-gradient-to-t border-1 border-blue-700 from-blue-500 via-blue-600 to-blue-700 mx-auto py-0 px-4 sm:px-8 lg:px-16 flex  items-center lg:flex-col sm:flex flex-col border-2 ">
+    <form onSubmit={onSubmit} className="bg-[#001f50] border-1 border-[#001f50] mx-auto py-0 px-4 sm:px-8 lg:px-16 flex  items-center lg:flex-col sm:flex flex-col border-2 ">
       <div className='pt-12 w-full'>
         <Input
           type="text"

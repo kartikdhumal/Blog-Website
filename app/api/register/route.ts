@@ -19,8 +19,18 @@ export async function POST(
     return NextResponse.json({ error: 'Name must be at least two characters long' }, { status: 400 });
   }
 
-  if(!nameRegex.test(name)){
+  if (!nameRegex.test(name)) {
     return NextResponse.json({ error: 'Invalid name format' }, { status: 400 });
+  }
+
+  const existingUser = await prisma.user.findFirst({
+    where: {
+      email: email
+    }
+  });
+
+  if (existingUser) {
+    return NextResponse.json({ error: 'User with this email already exists' }, { status: 400 });
   }
 
   const hashedPassword = await bcrypt.hash(password, 12);

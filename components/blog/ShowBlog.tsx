@@ -178,7 +178,7 @@ function ShowBlog({ name, sections, blogId, createdAt, currentUserId, userMade, 
 
 
     return (
-        <div className="w-full  h-auto bg-blue-700">
+        <div className="w-full  h-auto bg-[#001f50]">
             {loading ? (
                 <div className='flex flex-col min-h-screen font-bold text-sky-100 text-xl justify-start pt-60 items-center p-5'>
                     Loading...
@@ -196,13 +196,13 @@ function ShowBlog({ name, sections, blogId, createdAt, currentUserId, userMade, 
                                 <div className="image relative mb-6">
                                     <Image
                                         height={350}
-                                        width={700}
+                                        width={900}
                                         className="rounded-lg px-5 shadow-md"
                                         src={sections.imageSrc ?? ''}
                                         alt="Blog Image"
                                     />
                                 </div>
-                                <div className="description lg:w-[50%] text-white text-xl p-5">
+                                <div className="description lg:w-[70%] text-white text-xl p-5">
                                     {sections.description.split('.').map((paragraph, index) => (
                                         <React.Fragment key={index}>
                                             <p>{paragraph}</p>
@@ -238,7 +238,7 @@ function ShowBlog({ name, sections, blogId, createdAt, currentUserId, userMade, 
 
                             <button
                                 type="submit"
-                                className="w-full text-white bg-blue-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md px-4 py-2 mt-6 text-center me-2 mb-2 border border-solid border-blue-700 shadow-md"
+                                className="w-full text-[#001f50] bg-blue-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md px-4 py-2 mt-6 text-center me-2 mb-2 border border-solid border-blue-700 shadow-md"
                                 disabled={isLoading}
                             >
                                 {isLoading ? 'Submitting...' : 'Submit'}

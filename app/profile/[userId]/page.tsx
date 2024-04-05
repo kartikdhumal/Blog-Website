@@ -1,22 +1,15 @@
 "use client"
-import Input from '@/components/input/Input'
-import axios from 'axios'
-import { signOut } from 'next-auth/react'
-import { stat } from 'fs'
-import { useRouter } from 'next/navigation'
-import React, { ChangeEvent, FormEvent, useState } from 'react'
-import toast from 'react-hot-toast'
+import Input from '@/components/input/Input';
+import axios from 'axios';
+import { signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
-interface InitialStateProps {
-  name: string,
-  email: string,
-  hashedPassword: string
-}
-
-const initialState: InitialStateProps = {
-  name: '',
-  email: '',
-  hashedPassword: ''
+interface UserData {
+  name: string;
+  email: string;
+  hashedPassword?: string
 }
 
 interface IParams {
@@ -24,29 +17,52 @@ interface IParams {
 }
 
 export default function EditProfilePage({ params }: { params: IParams }) {
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useState<UserData>({ name: '', email: '' });
+  const [newPassword, setNewPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { userId } = params;
+  const [isFetching, setIsFetching] = useState(true);
   const router = useRouter();
+  const { userId } = params;
 
-  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+  useEffect(() => {
+    const fetchUserData = async () => {
+      setIsFetching(true);
+      try {
+        const response = await axios.get(`/api/editprofile/${userId}`);
+        const userData: UserData = response.data;
+        setState(userData);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      } finally {
+        setIsFetching(false);
+      }
+    };
+
+    fetchUserData();
+  }, [userId]);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, [event.target.name]: event.target.value });
-  }
+  };
+
+  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setNewPassword(event.target.value);
+  };
 
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
     setIsLoading(true);
 
     try {
-      if (state.email == '' || state.hashedPassword == '' || state.name == '') {
-        toast.error('Fill the data');
-      } else {
-        await axios.put(`/api/editprofile/${userId}`, state);
-        await signOut()
-        toast.success('Profile Updated Successfully');
-        router.push('/login');
-        router.refresh();
+      const updatedUserData = { ...state };
+      if (newPassword !== '') {
+        updatedUserData.hashedPassword = newPassword;
       }
+
+      await axios.put(`/api/editprofile/${userId}`, updatedUserData);
+      toast.success('Profile Updated Successfully');
+      router.push('/');
+      router.refresh();
     } catch (error: any) {
       console.error(error);
 
@@ -68,7 +84,7 @@ export default function EditProfilePage({ params }: { params: IParams }) {
             break;
           default:
             toast.error('Something is wrong');
-            setState({ email: '', name: '', hashedPassword: '' });
+            setState({ email: '', name: '' });
             break;
         }
       } else {
@@ -80,53 +96,64 @@ export default function EditProfilePage({ params }: { params: IParams }) {
   };
 
   return (
-    <div className="flex bg-gradient-to-t from-blue-500 via-blue-600 to-blue-700 flex-col md:flex-row h-screen items-center ">
-      <div className="rounded-lg w-full md:max-w-md lg:max-w-full md:mx-auto md:w-1/2 xl:w-1/3 h-auto px-6 lg:px-16 xl:px-12
-         flex justify-center">
-
-        <div className="w-full h-70">
-          <form className="lg:mt-0 sm:mt-20" onSubmit={onSubmit} method="POST">
-            <div>
-              <label className="block text-gray-100"> Name </label>
-              <Input placeholder='Name' value={state.name} name='name' id='name' style="w-full px-4 py-3 rounded-lg  mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none" type='text' onChange={handleChange} />
+    <div className="flex bg-[#001f50] lg:pt-28 sm:pt-0 flex-col md:flex-row h-screen fixed w-full justify-start items-start ">
+      {
+        isFetching ? <>
+          <div className="rounded-lg w-full text-xl font-bold md:max-w-md text-gray-100 lg:max-w-full md:mx-auto md:w-1/2 xl:w-1/3 h-auto px-6 lg:px-16 xl:px-12 lg:pt-0 sm:pt-60 flex justify-center items-center">
+            Loading...
+          </div>
+        </> : <>
+          <div className="rounded-lg w-full md:max-w-md lg:max-w-full md:mx-auto md:w-1/2 xl:w-1/3 h-auto px-6 lg:px-16 xl:px-12 flex justify-center">
+            <div className="w-full h-70">
+              <form className="lg:mt-0 sm:mt-20" onSubmit={onSubmit} method="POST">
+                <div>
+                  <label className="block text-gray-100">Name</label>
+                  <Input
+                    placeholder="Name"
+                    value={state.name}
+                    name="name"
+                    id="name"
+                    style="w-full px-4 py-3 rounded-lg mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+                    type="text"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="mt-4">
+                  <label className="block text-gray-100">Email Address</label>
+                  <Input
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder="Email"
+                    value={state.email}
+                    onChange={handleChange}
+                    style="w-full px-4 py-3 rounded-lg mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+                  />
+                </div>
+                <div className="mt-4">
+                  <label className="block text-gray-100">New Password</label>
+                  <Input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="New Password"
+                    value={newPassword}
+                    onChange={handlePasswordChange}
+                    style="w-full px-4 py-3 rounded-lg mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full text-[#001f50] bg-sky-100 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md px-4 py-3 mt-6 text-center me-2 mb-2 border border-solid border-blue-700 shadow-md"
+                  disabled={isLoading}
+                >
+                  {isLoading ? 'Updating Profile...' : 'Update Profile'}
+                </button>
+              </form>
             </div>
-            <div className='mt-4'>
-              <label className="block text-gray-100">Email Address</label>
-              <Input
-                type="email"
-                name="email"
-                id="email"
-                placeholder="Email"
-                value={state.email}
-                onChange={handleChange}
-                style="w-full px-4 py-3 rounded-lg  mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-              />
-            </div>
-
-            <div className="mt-4">
-              <label className="block text-gray-100">Password</label>
-              <Input
-                type="password"
-                name="hashedPassword"
-                id="password"
-                placeholder="Password"
-                minlength={6}
-                value={state.hashedPassword}
-                onChange={handleChange}
-                style="w-full px-4 py-3 rounded-lg mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full text-white bg-blue-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md px-4 py-3 mt-6 text-center me-2 mb-2 border border-solid border-blue-700 shadow-md"
-              disabled={isLoading}
-            >
-              {isLoading ? 'Updating Profile...' : 'Update Profile'}
-            </button>
-          </form>
-
-        </div>
-      </div>
+          </div>
+        </>
+      }
     </div>
-  )
+  );
 }

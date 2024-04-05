@@ -8,7 +8,7 @@ async function Home(blogParams: HomeProps) {
   const currentUser = await getCurrentUser();
   const blogs = await getBlogs(blogParams);
   return (
-    <main className="bg-gradient-to-t from-blue-500 via-blue-600 to-blue-700 flex min-h-screen flex-row flex-wrap lg:justify-start sm:justify-center">
+    <main className="bg-[#001f50] flex min-h-screen pb-10 flex-row flex-wrap lg:justify-start sm:justify-center">
       {blogs.length > 0 ? (
         blogs.map((item: any) => (
           <SingleBlog key={item.id} data={item} currentUser={currentUser} />
