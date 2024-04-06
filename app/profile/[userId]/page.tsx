@@ -144,7 +144,7 @@ export default function EditProfilePage({ params }: { params: IParams }) {
                 </div>
                 <button
                   type="submit"
-                  className="w-full text-[#001f50] bg-sky-100 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md px-4 py-3 mt-6 text-center me-2 mb-2 border border-solid border-blue-700 shadow-md"
+                  className="w-full bg-[#90caf9] text-[#001f50] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md px-4 py-3 mt-6 text-center me-2 mb-2 border border-solid border-blue-700 shadow-md"
                   disabled={isLoading}
                 >
                   {isLoading ? 'Updating Profile...' : 'Update Profile'}

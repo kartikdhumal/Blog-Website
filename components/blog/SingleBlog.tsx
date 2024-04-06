@@ -7,7 +7,7 @@ import { RiDeleteBin5Line } from 'react-icons/ri'
 import { BsFillPencilFill } from 'react-icons/bs'
 import { useEffect, useState } from "react";
 import { MdOutlineComment } from "react-icons/md";
-import { FaRegHeart } from "react-icons/fa";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { FcLike } from "react-icons/fc";
 import { Skeleton } from '@mui/material';
 import Link from "next/link";
@@ -119,16 +119,17 @@ export default function SingleBlog({ key, data, currentUser }: BlogProps) {
         </>
       ) : (
         sections.length > 0 && (
-          <div className="mt-5 lg:w-[30%] lg:ml-[2%] bg-[#EDF4F2] border border-black sm:w-[90%] lg:h-full sm:h-auto rounded-xl shadow-md">
+          <div className="mt-5 lg:w-[30%] lg:ml-[2%] bg-[#EDF4F2] hover:bg-gray-300 border border-black sm:w-[90%] lg:h-full sm:h-auto rounded-xl shadow-md">
             <div className="">
               <div className="lg:flex gap-2 lg:flex-col justify-between cursor-pointer sm:flex flex-col">
                 {sections.length > 0 && (
-                  <Link href={`/showblog/${data.id}`}>
-                    <img
-                      className="lg:w-[90%] sm:w-[90%] m-5 rounded-xl border border-black object-contain transform transition-transform "
+                  <Link href={`/showblog/${data.id}`} className="flex justify-center w-full items-center">
+                    <LazyLoadImage
+                      className="lg:w-[90%] sm:w-[90%] h-56 m-5 rounded-2xl  transform transition-transform "
                       src={sections[0].imageSrc}
+                      placeholderSrc={sections[0].imageSrc}
                       alt="Blog Image"
-                    ></img>
+                    ></LazyLoadImage>
                   </Link>
                 )}
                 <div className="lg:w-auto flex flex-col pl-6 sm:w-auto">
@@ -161,28 +162,18 @@ export default function SingleBlog({ key, data, currentUser }: BlogProps) {
                                 {isDeleting ? 'Deleting...' : 'Delete'}
                               </button>
                             </div>
-                            <div className="flex flex-col w-2/4">
-                              <div className="flex flex-row justify-end">
-                                <div className="vm:text-sm px-2 font-bold text-gray-600">{`${userName ? '- ' + userName : ''}`}</div>
-                              </div>
-                              <div className=" flex vm:text-xs items-center justify-end px-2 text-gray-500">
-                                {getRelativeTime(data.createdAt)}
-                              </div>
-                            </div>
                           </>
                         )}
                       </>
                     )}
-                    {(data.userId !== currentUser?.id || !currentUser?.isAdmin) && (
-                      <div className="flex flex-col w-full">
-                        <div className="flex flex-row justify-end">
-                          <div className="vm:text-sm px-2 font-bold text-gray-700">{`${userName ? '- ' + userName : ''}`}</div>
-                        </div>
-                        <div className=" flex vm:text-xs items-center justify-end px-2 text-gray-700">
-                          {getRelativeTime(data.createdAt)}
-                        </div>
+                    <div className="flex flex-col w-full">
+                      <div className="flex flex-row justify-end">
+                        <div className="vm:text-sm px-2 font-bold text-gray-700">{`${userName ? '- ' + userName : ''}`}</div>
                       </div>
-                    )}
+                      <div className=" flex vm:text-xs items-center justify-end px-2 text-gray-700">
+                        {getRelativeTime(data.createdAt)}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

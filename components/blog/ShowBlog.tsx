@@ -70,7 +70,6 @@ function ShowBlog({ name, sections, blogId, createdAt, currentUserId, userMade, 
     const [commentsExpanded, setCommentsExpanded] = useState(false);
 
     const router = useRouter()
-
     const currentDate = new Date();
 
     const getRelativeTime = (date: Date | string): string => {
@@ -81,6 +80,10 @@ function ShowBlog({ name, sections, blogId, createdAt, currentUserId, userMade, 
         return date.toLocaleDateString('en-US', options);
     };
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+    
     useEffect(() => {
         async function fetchSections() {
             try {
@@ -252,7 +255,7 @@ function ShowBlog({ name, sections, blogId, createdAt, currentUserId, userMade, 
                         className="lg:w-[40%] sm:w-[100%] bg-blue-200 text-black flex justify-center items-center p-1 rounded-lg mb-4"
                     >
                         <span className="mr-1 text-lg">{totalComment}</span>
-                        <span className="text-lg">comments</span>
+                        <span className="text-lg">{comments.length == 1 ? "Comment" : "Comments"}</span>
                         {!commentsExpanded ? <FaCaretDown /> : <FaCaretUp />}
                     </div>
 

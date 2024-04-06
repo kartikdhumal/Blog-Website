@@ -144,7 +144,7 @@ export default function BlogId({ name, sections, blogId }: BlogProps) {
           placeholder="Title"
           value={state.name}
           onChange={(e) => setState({ ...state, name: e.target.value })}
-          style="w-96 px-4 py-3 mt-5 rounded-lg  mt-2 border focus:border-blue-500 focus:outline-none"
+          style="lg:w-96 sm:w-[100%] px-4 py-3 mt-5 rounded-lg  mt-2 border focus:border-blue-500 focus:outline-none"
         />
         {state.sections.map((section, index) => (
           <div key={index} className="flex items-start justify-start flex-col gap-4">
@@ -167,14 +167,14 @@ export default function BlogId({ name, sections, blogId }: BlogProps) {
                   onClick={addSection}
                   className="text-white cursor-pointer w-full bg-gradient-to-r from-sky-300 via-sky-500 to-sky-400 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-100 dark:focus:ring-blue-200 rounded-lg text-sm px-4 py-2 font-bold text-center"
                 >
-                  Add Section
+                  Add More
                 </div>
                 {state.sections.length > 1 && (
                   <div
                     onClick={() => removeSection(index)}
                     className="text-white cursor-pointer w-full  mx-2 bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 rounded-lg text-sm px-4 py-2 font-bold text-center"
                   >
-                    Remove Section
+                    Remove
                   </div>
                 )}
               </div>
