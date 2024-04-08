@@ -2,7 +2,8 @@ import React, { useEffect } from 'react'
 import getBlogs from '@/app/actions/getBlogs';
 import { HomeProps } from '@/utils/mytypes';
 import getCurrentUser from '@/app/actions/getCurrentUser';
-import SingleBlog from './blog/SingleBlog';
+import dynamic from 'next/dynamic';
+const SingleBlog = dynamic(() => import('./blog/SingleBlog'));
 
 async function Home(blogParams: HomeProps) {
   const currentUser = await getCurrentUser();
