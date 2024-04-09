@@ -40,7 +40,7 @@ export default function SingleBlog({ key, data, currentUser }: BlogProps) {
     async function fetchSections() {
       try {
         const response = await axios.get(`/api/sections`);
-        const filteredSections = response.data.filter((section: Section) => section.blogId === data.id);
+        const filteredSections = response.data.sections.filter((section: Section) => section.blogId === data.id);
         setSections(filteredSections);
       } catch (error) {
         console.error(error);

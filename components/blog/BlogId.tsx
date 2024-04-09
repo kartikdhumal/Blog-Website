@@ -39,6 +39,26 @@ export default function BlogId({ name, sections, blogId }: BlogProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [state, setState] = useState(initialState);
+  const [currentuser, setCurrentUser] = useState([]);
+
+  useEffect(() => {
+    async function fetchSections() {
+      try {
+        const response = await axios.get(`/api/sections`);
+        setCurrentUser(response.data.currentUser);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchSections();
+  }, []);
+
+  useEffect(() => {
+    if (currentuser === null) {
+      router.push('/');
+    }
+  }, [currentuser]);
+
 
   useEffect(() => {
     setState({

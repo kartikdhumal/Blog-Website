@@ -1,13 +1,10 @@
 'use client'
-
-import React, { ChangeEvent, FormEvent, useMemo, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useEffect, useMemo, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-hot-toast'
 import Input from '@/components/input/Input'
 import ImageUpload from '@/components/input/ImageUpload'
-
-
 
 interface InitialStateProps {
   name?: string;
@@ -15,6 +12,13 @@ interface InitialStateProps {
     imageSrc: string;
     description: string;
   }[];
+}
+
+interface Section {
+  id: string;
+  imageSrc: string;
+  description: string;
+  blogId: string;
 }
 
 const initialState: InitialStateProps = {
@@ -25,7 +29,28 @@ const initialState: InitialStateProps = {
 export default function page() {
   const [state, setState] = useState(initialState)
   const [isLoading, setIsLoading] = useState(false)
+  const [sections, setSections] = useState<Section[]>([]);
+  const [currentuser, setCurrentUser] = useState([]);
   const router = useRouter()
+
+
+  useEffect(() => {
+    async function fetchSections() {
+      try {
+        const response = await axios.get(`/api/sections`);
+        setCurrentUser(response.data.currentUser);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchSections();
+  }, []);
+
+  useEffect(() => {
+    if (currentuser === null) {
+      router.push('/');
+    }
+  }, [currentuser]);
 
   const onSubmit = (event: FormEvent) => {
     setIsLoading(true);

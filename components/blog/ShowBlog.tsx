@@ -87,7 +87,7 @@ function ShowBlog({ name, sections, blogId, createdAt, currentUserId, userMade, 
             try {
                 setLoading(true);
                 const response = await axios.get(`/api/sections`);
-                const filteredSections = response.data.filter((section: Section) => section.blogId === blogId);
+                const filteredSections = response.data.sections.filter((section: Section) => section.blogId === blogId);
                 setSections(filteredSections);
                 setLoading(false);
             } catch (error) {

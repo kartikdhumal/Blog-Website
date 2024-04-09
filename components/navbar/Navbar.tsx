@@ -27,6 +27,7 @@ function Navbar({ currentUser }: UserMenuProps) {
     setAnchorEl(event.currentTarget);
   };
 
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -60,18 +61,18 @@ function Navbar({ currentUser }: UserMenuProps) {
               </div>
               <div className="flex lg:w-auto items-center lg:flex-row lg:gap-7 sm:gap-4 sm:h-auto sm:w-full sm:flex-col">
                 <Link
-                  className="inline-block py-2 w-full text-center px-6 bg-gradient-to-b from-blue-500 to-blue-600 hover:bg-blue-700 text-sm text-white font-bold rounded-xl transition duration-200 shadow-md border-solid border-black border-1"
+                  className="py-2 w-full text-center font-bold px-6 bg-[#90caf9] text-sm text-[#001f50] rounded-xl transition duration-200"
                   href="/login"
                   onClick={handleLinkClick}
                 >
-                  <button style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }}>Login</button>
+                  <button>Login</button>
                 </Link>
                 <Link
-                  className="inline-block w-full text-center py-2 px-6 bg-gradient-to-b from-blue-500 to-blue-600 hover:bg-blue-700 text-sm text-white font-bold rounded-xl transition duration-200 shadow-md border-solid border-black border-1"
+                  className="w-full text-center py-2  font-bold px-6 bg-[#90caf9] text-sm text-[#001f50] rounded-xl transition duration-200"
                   href="/register"
                   onClick={handleLinkClick}
                 >
-                  <button style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }}>Register</button>
+                  <button>Register</button>
                 </Link>
               </div>
             </>
