@@ -1,7 +1,7 @@
 "use client"
 import { SafeUser } from '@/types/type'
 import { Avatar, Box, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material'
-import { Session } from 'inspector'
+import logo from '../../app/logo.png'
 import { signOut } from 'next-auth/react'
 import Link from 'next/link'
 import React, { useState } from 'react'
@@ -48,7 +48,7 @@ function Navbar({ currentUser }: UserMenuProps) {
       <nav className='bg-[#001f50] shadow-xl lg:shadow-md sm:shadow-sm flex justify-between px-4 lg:py-5 sm:py-5'>
         <div className='lg:px-10 sm:px-2 flex items-center'>
           <h1 className={`${!isNavbarOpen ? 'sm:block' : 'sm:hidden'} lg:text-3xl w-50 sm:block font-bold sm:text-2xl sm:h-10 text-white`} style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }}>
-            <Link href={'/'}>DKTales</Link>
+            <Link href={'/'}><img src={logo.src} alt='logo' className='w-auto h-10'></img></Link>
           </h1>
 
         </div>

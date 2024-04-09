@@ -76,7 +76,7 @@ function page() {
       <div className="rounded-lg w-full md:max-w-md lg:max-w-full md:mx-auto md:w-1/2 xl:w-1/3 h-auto px-6 lg:px-16 xl:px-12
             flex items-center justify-center">
 
-        <div className="w-full h-100 lg:mt-0 sm:mt-20">
+        <div className="w-full h-100 lg:mt-0 sm:mt-16">
           <form onSubmit={onSubmit} method="POST">
             <div>
               <label className="block text-gray-100">Email Address</label>
@@ -87,7 +87,7 @@ function page() {
                 placeholder="Email"
                 value={state.email}
                 onChange={handleChange}
-                style="w-full px-4 py-3 rounded-lg  mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+                style="w-full px-4 lg:py-3 sm:py-2 rounded-lg  mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
               />
             </div>
 
@@ -101,12 +101,12 @@ function page() {
                 minlength={6}
                 value={state.password}
                 onChange={handleChange}
-                style="w-full px-4 py-3 rounded-lg mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+                style="w-full px-4 lg:py-3 sm:py-2 rounded-lg mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
               />
             </div>
             <button
               type="submit"
-              className="w-full bg-[#90caf9] text-[#001f50] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md px-4 py-3 mt-6 text-center me-2 mb-2 border border-solid border-blue-700 shadow-md"
+              className="w-full bg-[#90caf9] lg:py-3 sm:py-2 text-[#001f50] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md px-4 mt-6 text-center me-2 mb-2 border border-solid border-blue-700 shadow-md"
               disabled={isLoading}
             >
               {isLoading ? 'Signing in...' : 'Sign In'}

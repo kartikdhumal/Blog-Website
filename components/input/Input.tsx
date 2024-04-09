@@ -17,7 +17,7 @@ interface InputProps{
 function Input({type,value,style, minlength,onChange,name,id,placeholder,big}:InputProps) {
   return (
    <input type={type} value={value} onChange={onChange} name={name} id={id} placeholder={placeholder}
-    className={style} minLength={minlength}/>
+    className={style} minLength={minlength} required/>
   )
 }
 

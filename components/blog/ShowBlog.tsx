@@ -1,14 +1,12 @@
 "use client"
-import getBlogsById from '@/app/actions/getBlogsById';
 import axios from 'axios';
 import Image from 'next/image'
 import { useRouter } from 'next/navigation';
-import CircularProgress from '@mui/material/CircularProgress';
+import { RWebShare } from "react-web-share";
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 import { RiDeleteBin5Fill } from "react-icons/ri";
-import { Interface } from 'readline';
-import { Skeleton } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
 import { FaCaretDown } from "react-icons/fa";
 import { FaCaretUp } from "react-icons/fa";
 
@@ -83,7 +81,7 @@ function ShowBlog({ name, sections, blogId, createdAt, currentUserId, userMade, 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
-    
+
     useEffect(() => {
         async function fetchSections() {
             try {
@@ -187,8 +185,8 @@ function ShowBlog({ name, sections, blogId, createdAt, currentUserId, userMade, 
                     Loading...
                 </div>
             ) : (
-                <div className="mybox flex flex-col justify-center items-center p-5">
-                    <div className="title text-3xl font-extrabold p-7 text-white capitalize">
+                <div className="mybox flex flex-col justify-center items-center lg:p-5 sm:p-0">
+                    <div className="title text-3xl font-extrabold p-7  text-white capitalize">
                         {name}
                     </div>
 
@@ -224,9 +222,23 @@ function ShowBlog({ name, sections, blogId, createdAt, currentUserId, userMade, 
                             {getRelativeTimeForComments(createdAt)}
                         </div>
                         <div className="name text-md text-gray-200 font-bold">{`- ` + nameUser}</div>
+                        <div className='w-full flex justify-end my-5'>
+                            <RWebShare
+                                data={{
+                                    text: name?.toUpperCase(),
+                                    url: `https://dktales-kartikdhumal.vercel.app/showblog/${blogId}`,
+                                    title: name,
+                                }}
+                                onClick={() =>
+                                    console.log("shared successfully!")
+                                }
+                            >
+                                <button className='border-2 text-white font-bold bg-[#001f50] hover:bg-[#EDF4F2] hover:text-[#001f50] hover:border-[#001f50] focus:ring-4 focus:outline-none rounded-lg text-sm px-3 py-2 text-center me-2 mb-2'>Share <SendIcon style={{ fontSize: 13, marginLeft: "3px" }} /> </button>
+                            </RWebShare>
+                        </div>
                     </div>
 
-                    <div className="mb-4 lg:w-[50%] sm:w-[100%]">
+                    <div className="mb-4 lg:w-[50%] sm:w-[90%]">
                         <form onSubmit={handleSubmit} className='w-full' method="post">
                             <textarea
                                 required
@@ -252,11 +264,11 @@ function ShowBlog({ name, sections, blogId, createdAt, currentUserId, userMade, 
                     </div>
                     <div
                         onClick={() => setCommentsExpanded(!commentsExpanded)}
-                        className="lg:w-[40%] sm:w-[100%] bg-blue-200 text-black flex justify-center items-center p-1 rounded-lg mb-4"
+                        className="lg:w-[40%] sm:w-[90%] bg-[#001f50] text-[#EDF4F2] border-2 flex justify-center items-center p-1 rounded-lg mb-4"
                     >
                         <span className="mr-1 text-lg">{totalComment}</span>
-                        <span className="text-lg">{comments.length == 1 ? "Comment" : "Comments"}</span>
-                        {!commentsExpanded ? <FaCaretDown /> : <FaCaretUp />}
+                        <span className="text-lg">{comments.length == 1 ? "comment" : "comments"}</span>
+                        {!commentsExpanded ? <FaCaretDown style={{ marginLeft: "5px" }} /> : <FaCaretUp />}
                     </div>
 
                     <style jsx>{`
@@ -294,7 +306,7 @@ function ShowBlog({ name, sections, blogId, createdAt, currentUserId, userMade, 
                                     key={data.id}
                                 >
                                     <div className="flex w-full justify-center items-center relative top-1/3">
-                                        <div className="lg:w-[40%] sm:w-[90%] p-4 mb-8 border rounded-lg bg-gray-100 shadow-md">
+                                        <div className="lg:w-[40%] sm:w-[90%] p-4 mb-8 border rounded-lg bg-[#EDF4F2] shadow-md">
                                             <div className="flex flex-col gap-0">
                                                 <div className="flex w-full flex-row items-center justify-between">
                                                     <p className="font-bold text-lg text-blue-700">

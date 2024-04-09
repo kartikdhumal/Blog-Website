@@ -90,7 +90,6 @@ export default function SingleBlog({ key, data, currentUser }: BlogProps) {
   const createdAtDate = data?.createdAt ? new Date(data.createdAt) : null;
   const currentDate = new Date();
   const timeDifference = currentDate.getTime() - (createdAtDate?.getTime() ?? currentDate.getTime());
-  const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
   const getRelativeTime = (date: Date | string): string => {
     if (typeof date === 'string') {
       date = new Date(date);
@@ -103,13 +102,15 @@ export default function SingleBlog({ key, data, currentUser }: BlogProps) {
     <>
       {loading ? (
         <>
-          <div className="mt-5 lg:w-[30%] lg:ml-[2%] sm:w-[90%] lg:h-[400px] sm:h-auto rounded-xl shadow-md">
+          <div className="mt-5 lg:w-[30%] lg:ml-[2%] sm:w-[90%] lg:h-[400px] sm:h-auto rounded-xl">
             <div className="">
-              <div className="lg:flex gap-2 lg:flex-col justify-between cursor-pointer sm:flex flex-col">
+              <div className="lg:flex gap-2 lg:flex-col justify-between bg-gray-400 rounded-xl cursor-pointer sm:flex flex-col">
                 <Skeleton variant="rectangular" width="100%" height={200} />
                 <div className="lg:w-auto flex flex-col pl-6 leading-[1.5] sm:w-auto">
                   <Skeleton variant="text" width="60%" />
-                  <div className="flex w-100 flex-row justify-end lg:pr-3 sm:py-3 pr-3">
+                  <Skeleton variant="text" width="60%" />
+                  <div className="flex w-100 flex-col justify-end lg:pr-3 sm:py-3 pr-3">
+                    <Skeleton variant="text" width={100} />
                     <Skeleton variant="text" width={100} />
                   </div>
                 </div>
@@ -125,22 +126,22 @@ export default function SingleBlog({ key, data, currentUser }: BlogProps) {
                 {sections.length > 0 && (
                   <Link href={`/showblog/${data.id}`} className="flex justify-center w-full items-center">
                     <LazyLoadImage
-                      className="lg:w-[90%] sm:w-[90%] h-56 m-5 rounded-2xl  transform transition-transform "
+                      className="lg:w-[100%] sm:w-[90%] object-fill h-56 rounded-2xl mt-5 lg:mx-0 sm:mx-5 transform transition-transform "
                       src={sections[0].imageSrc}
                       placeholderSrc={sections[0].imageSrc}
                       alt="Blog Image"
                     ></LazyLoadImage>
                   </Link>
                 )}
-                <div className="lg:w-auto flex flex-col pl-6 sm:w-auto">
+                <div className="lg:w-auto flex flex-col  pl-6 sm:w-auto">
                   {sections.length > 0 && (
                     <b>
-                      <h1
-                        onClick={() => router.push(`/showblog/${data.id}`)}
-                        className="text-2xl h-auto font-bold text-blue-800 overflow-hidden whitespace-nowrap overflow-ellipsis"
+                      <Link
+                        href={`/showblog/${data.id}`}
+                        className="text-2xl h-auto font-bold text-[#001f50]"
                       >
                         {data.name}
-                      </h1>
+                      </Link>
                     </b>
                   )}
                   <div className="flex w-100 flex-row justify-start items-start lg:pr-3 pb-3 py-3 pr-3">
@@ -149,12 +150,12 @@ export default function SingleBlog({ key, data, currentUser }: BlogProps) {
                         {(data.userId === currentUser?.id || currentUser?.isAdmin) && (
                           <>
                             <div className="flex items-start justify-start w-2/4 gap-4">
-                              <button
+                              <Link
+                                href={`/blogs/${data.id}`}
                                 className="lg:w-auto sm:w-auto text-white bg-gradient-to-r from-green-600 via-green-700 to-green-800 hover:bg-gradient-to-br focus:ring-4 focus:outline-none  dark:focus:ring-green-900 font-medium rounded-lg text-sm px-4 py-3 sm:p-2 text-center"
-                                onClick={() => router.push(`/blogs/${data.id}`)}
                               >
                                 Edit
-                              </button>
+                              </Link>
                               <button
                                 className="lg:w-auto sm:w-auto text-white bg-gradient-to-r from-red-600 via-red-700 to-red-800 hover:bg-gradient-to-br focus:ring-4 focus:outline-none dark:focus:ring-red-900 font-medium rounded-lg text-sm px-4 py-3 sm:p-2 text-center"
                                 onClick={onDelete}
