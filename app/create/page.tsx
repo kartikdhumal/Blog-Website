@@ -30,27 +30,29 @@ export default function page() {
   const [state, setState] = useState(initialState)
   const [isLoading, setIsLoading] = useState(false)
   const [sections, setSections] = useState<Section[]>([]);
-  const [currentuser, setCurrentUser] = useState([]);
   const router = useRouter()
+  // const [currentuser, setCurrentUser] = useState([]);
 
+  // useEffect(() => {
+  //   async function fetchSections() {
+  //     try {
+  //       const response = await axios.get(`/api/sections`);
+  //       setCurrentUser(response.data.currentUser);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }
+  //   fetchSections();
+  // }, []);
 
-  useEffect(() => {
-    async function fetchSections() {
-      try {
-        const response = await axios.get(`/api/sections`);
-        setCurrentUser(response.data.currentUser);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    fetchSections();
-  }, []);
-
-  useEffect(() => {
-    if (currentuser === null) {
-      router.push('/');
-    }
-  }, [currentuser]);
+  // useEffect(() => {
+  //   if (currentuser === null) {
+  //     console.log("Yes");
+  //   }
+  //   else{
+  //     console.log(currentuser);
+  //   }
+  // }, [currentuser]);
 
   const onSubmit = (event: FormEvent) => {
     setIsLoading(true);

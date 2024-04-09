@@ -23,25 +23,25 @@ export default function EditProfilePage({ params }: { params: IParams }) {
   const [isFetching, setIsFetching] = useState(true);
   const router = useRouter();
   const { userId } = params;
-  const [currentuser, setCurrentUser] = useState([]);
+  // const [currentuser, setCurrentUser] = useState([]);
 
-  useEffect(() => {
-    async function fetchSections() {
-      try {
-        const response = await axios.get(`/api/sections`);
-        setCurrentUser(response.data.currentUser);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    fetchSections();
-  }, []);
+  // useEffect(() => {
+  //   async function fetchSections() {
+  //     try {
+  //       const response = await axios.get(`/api/sections`);
+  //       setCurrentUser(response.data.currentUser);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }
+  //   fetchSections();
+  // }, []);
 
-  useEffect(() => {
-    if (currentuser === null) {
-      router.push('/');
-    }
-  }, [currentuser]);
+  // useEffect(() => {
+  //   if (currentuser === null) {
+  //     router.push('/');
+  //   }
+  // }, [currentuser]);
 
   useEffect(() => {
     const fetchUserData = async () => {
