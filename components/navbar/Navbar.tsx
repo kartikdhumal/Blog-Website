@@ -40,7 +40,6 @@ function Navbar({ currentUser }: UserMenuProps) {
     setIsNavbarOpen(false);
   };
 
-
   const handleNavigation = () => {
     setIsNavbarOpen(!isNavbarOpen);
   };
@@ -80,17 +79,24 @@ function Navbar({ currentUser }: UserMenuProps) {
         </div>
         {currentUser && (
           <div className='w-40 lg:mr-10 sm:mr-1'>
-            <Box sx={{ display: 'flex', alignItems: 'center', borderRadius: "50%", justifyContent: "space-between", textAlign: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', borderRadius: "50%", justifyContent: "space-around", textAlign: 'center' }}>
               <Link href='/' onClick={handleLinkClick}><HomeIcon sx={{
                 '&:hover': {
                   color: "white", transition: "color 0.2s ease-in"
                 }, width: 32, height: 32, borderRadius: "50%", color: "#90caf9"
               }} /></Link>
-              <Link href='/create' onClick={handleLinkClick}><AddIcon sx={{
-                '&:hover': {
-                  color: "white", transition: "color 0.2s ease-in"
-                }, width: 32, height: 32, borderRadius: "50%", color: "#90caf9"
-              }} /></Link>
+
+          {/* ---- only admin can create blogs --- */}
+              {
+                currentUser?.isAdmin && (
+                  <Link href='/create' onClick={handleLinkClick}><AddIcon sx={{
+                    '&:hover': {
+                      color: "white", transition: "color 0.2s ease-in"
+                    }, width: 32, height: 32, borderRadius: "50%", color: "#90caf9"
+                  }} /></Link>
+                )
+              }
+
               <Tooltip title="Profile">
                 <IconButton
                   onClick={handleClick}
