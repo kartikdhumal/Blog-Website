@@ -22,7 +22,7 @@ model User {
   updatedAt      DateTime  @updatedAt
   comments       Comment[]
   courses        Blog[]
-  // listings       Listing[]
+  listings       Listing[]
 }
 
 model Blog {
@@ -54,13 +54,13 @@ model Comment {
   userId    String   @db.ObjectId
 }
 
-// model Listing {
-//   id          String   @id @default(auto()) @map("_id") @db.ObjectId
-//   name        String
-//   createdAt   DateTime @default(now())
-//   imageSrc    String
-//   description String
-//   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   userId      String   @db.ObjectId
-//   likedIds    String[] @db.ObjectId
-// }
+model Listing {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  createdAt   DateTime @default(now())
+  imageSrc    String
+  description String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String   @db.ObjectId
+  likedIds    String[] @db.ObjectId
+}
