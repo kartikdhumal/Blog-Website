@@ -104,14 +104,12 @@ export default function SingleBlog({ key, data, currentUser }: BlogProps) {
         <>
           <div className="mt-5 lg:w-[30%] lg:ml-[2%] sm:w-[90%] lg:h-[400px] sm:h-auto rounded-xl">
             <div className="">
-              <div className="lg:flex gap-2 lg:flex-col justify-between bg-gray-400 rounded-xl cursor-pointer sm:flex flex-col">
-                <Skeleton variant="rectangular" width="100%" height={200} />
-                <div className="lg:w-auto flex flex-col pl-6 leading-[1.5] sm:w-auto">
-                  <Skeleton variant="text" width="60%" />
-                  <Skeleton variant="text" width="60%" />
-                  <div className="flex w-100 flex-col justify-end lg:pr-3 sm:py-3 pr-3">
-                    <Skeleton variant="text" width={100} />
-                    <Skeleton variant="text" width={100} />
+              <div className="lg:flex gap-2 lg:flex-col justify-between bg-gray-400 rounded-xl cursor-pointer sm:flex flex-col p-5">
+                <Skeleton variant="rectangular" width="100%" height={200} sx={{bgcolor:"#33373D" , borderRadius:"10px"}}/>
+                <div className="lg:w-auto flex flex-col leading-[1.5] sm:w-auto">
+                  <Skeleton variant="text" width="100%" sx={{bgcolor:"#33373D" , paddingTop:"10px" , borderRadius:"10px"}}/>
+                  <div className="flex w-100 flex-col items-end justify-end lg:pr-3 sm:py-3 pr-3">
+                    <Skeleton variant="text" width={100} sx={{bgcolor:"#33373D" , paddingTop:"10px" , borderRadius:"10px"}} />
                   </div>
                 </div>
               </div>
@@ -171,9 +169,17 @@ export default function SingleBlog({ key, data, currentUser }: BlogProps) {
                       <div className="flex flex-row justify-end">
                         <div className="vm:text-sm px-2 font-bold text-gray-700">{`${userName ? '- ' + userName : ''}`}</div>
                       </div>
-                      <div className=" flex vm:text-xs items-center justify-end px-2 text-gray-700">
-                        {getRelativeTime(data.createdAt)}
+                      <div className="flex items-center justify-end px-2 text-gray-700 text-xs">
+                        {getRelativeTime(data.createdAt) === getRelativeTime(data.updatedAt) ? (
+                          getRelativeTime(data.createdAt)
+                        ) : (
+                          <>
+                            <span className="text-gray-600 text-[12px]">updated -</span>
+                            <span className="ml-1">{getRelativeTime(data.updatedAt)}</span>
+                          </>
+                        )}
                       </div>
+
                     </div>
                   </div>
                 </div>

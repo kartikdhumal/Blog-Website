@@ -86,15 +86,24 @@ function Navbar({ currentUser }: UserMenuProps) {
                 }, width: 32, height: 32, borderRadius: "50%", color: "#90caf9"
               }} /></Link>
 
-          {/* ---- only admin can create blogs --- */}
+              {/* ---- only admin can create blogs --- */}
               {
-                currentUser?.isAdmin && (
-                  <Link href='/create' onClick={handleLinkClick}><AddIcon sx={{
-                    '&:hover': {
-                      color: "white", transition: "color 0.2s ease-in"
-                    }, width: 32, height: 32, borderRadius: "50%", color: "#90caf9"
-                  }} /></Link>
-                )
+                // currentUser?.isAdmin && (
+                //   <Link href='/create' onClick={handleLinkClick}><AddIcon sx={{
+                //     '&:hover': {
+                //       color: "white", transition: "color 0.2s ease-in"
+                //     }, width: 32, height: 32, borderRadius: "50%", color: "#90caf9"
+                //   }} /></Link>
+                // )
+              }
+
+          { /* Only user can create blogs*/}
+              {
+                <Link href='/create' onClick={handleLinkClick}><AddIcon sx={{
+                  '&:hover': {
+                    color: "white", transition: "color 0.2s ease-in"
+                  }, width: 32, height: 32, borderRadius: "50%", color: "#90caf9"
+                }} /></Link>
               }
 
               <Tooltip title="Profile">
